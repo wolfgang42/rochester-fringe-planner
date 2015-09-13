@@ -23,6 +23,7 @@ function ShowViewModel(show) {
 	self.genre = show.genre;
 	self.venue = show.venue;
 	self.times = show.times;
+	self.length = show.length;
 	self.description = show.description;
 	
 	self.scheduled = ko.observableArray();
@@ -51,4 +52,34 @@ var viewModel = {
 	selectedVenues: selectedVenues,
 }
 
-ko.applyBindings(viewModel)
+$(document).ready(function() {
+	ko.applyBindings(viewModel)
+	
+	var calendar = $('#calendar').fullCalendar({
+		header: {
+			left: 'title',
+			center: 'prev,next today',
+			right: 'agendaWeek,agendaDay',
+		},
+		height: 'auto',
+		defaultView: 'agendaWeek',
+		events: []
+	})
+	
+	ko.computed(function() {
+		var events = [];
+		showViews.forEach(function(show) {
+			show.scheduled().forEach(function(time) {
+				events.push({
+					title: show.name,
+					start: time,
+					end: moment(time).add(show.length, 'minutes'),
+				})
+			})
+		})
+		calendar.fullCalendar('removeEvents')
+		calendar.fullCalendar('addEventSource', events)
+	});
+})
+
+
