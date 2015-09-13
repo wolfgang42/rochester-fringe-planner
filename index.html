@@ -1,29 +1,89 @@
 <!DOCTYPE html>
 <html><head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head><body>
+<div class="container-fluid">
 
-<h2>Genre</h2>
-<div data-bind="foreach:genres">
-	<div>
-		<input type="checkbox" data-bind="attr:{value:$data}, checked: $root.selectedGenres" />
-		<span data-bind="text: $data">
+<ul class="nav nav-tabs" role="tablist" id="tabbar">
+	<li role="presentation" class="active"><a href="#events" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
+	<li role="presentation"><a href="#schedule" aria-controls="schedule" role="tab" data-toggle="tab">Schedule</a></li>
+</ul>
+
+<div class="tab-content">
+	<div role="tabpanel" class="tab-pane active" id="events">
+		<div class="row">
+			<div class="col-md-3">
+				<h2>Genre</h2>
+				<div data-bind="foreach:genres">
+					<div>
+						<input type="checkbox" data-bind="attr:{value:$data}, checked: $root.selectedGenres" />
+						<span data-bind="text: $data">
+					</div>
+				</div>
+				<h2>Venue</h2>
+				<div data-bind="foreach:venues">
+					<div>
+						<input type="checkbox" data-bind="attr:{value:$data}, checked: $root.selectedVenues" />
+						<span data-bind="text: $data">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-9" data-bind="foreach:shows">
+				<div data-bind="visible:visible">
+					<h2 data-bind="text:name"></h2>
+					<div><strong>Genre:</strong> <span data-bind="text:genre"></span></div>
+					<div data-bind="text: description"></div>
+					<strong>
+						Times:
+						<div class="btn btn-default btn-xs" data-bind="visible:times.length>1">
+							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+							Add tentative
+						</div>
+					</strong>
+					<ul data-bind="foreach: times">
+						<li>
+							<span data-bind="text:$data"></span>
+							<div class="btn btn-default btn-xs" data-bind="click:$parent.addToSchedule,visible:$parent.inSchedule($data)">
+								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+								Add to schedule
+							</div>
+							<span data-bind="visible:!$parent.inSchedule($data)">
+								On schedule
+								<div class="btn btn-danger btn-xs" data-bind="click:$parent.removeFromSchedule">
+									Remove
+								</div>
+							</span>
+						</li>
+					</ul>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div role="tabpanel" class="tab-pane active" id="schedule">
+		Schedule goes here
 	</div>
 </div>
-<h2>Venue</h2>
-<div data-bind="foreach:venues">
-	<div>
-		<input type="checkbox" data-bind="attr:{value:$data}, checked: $root.selectedVenues" />
-		<span data-bind="text: $data">
-	</div>
-</div>
 
-<div id="shows" data-bind="foreach:shows">
-	<div data-bind="visible:visible">
-		<h2 data-bind="text:name"></h2>
-		<div><strong>Genre:</strong> <span data-bind="text:genre"></span></div>
-	</div>
-</div>
-
+<script>
+$('#tabbar a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+$('#myTabs a[href="#events"]').tab('show')
+</script>
 <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
-</body></html>
+</div></body></html>

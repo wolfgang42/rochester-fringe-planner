@@ -6,7 +6,7 @@ var genres = {};
 var venues = {};
 var showViews = [];
 Object.keys(shows).forEach(function(showName){
-	var show = shows[showName];console.log(showName, show)
+	var show = shows[showName];
 	showViews.push(new ShowViewModel(show))
 	genres[show.genre] = true;
 	venues[show.venue] = true;
@@ -14,6 +14,7 @@ Object.keys(shows).forEach(function(showName){
 
 var selectedGenres = ko.observableArray(Object.keys(genres));
 var selectedVenues = ko.observableArray(Object.keys(venues));
+var schedule = ko.observableArray();
 
 function ShowViewModel(show) {
 	var self = this;
@@ -21,6 +22,19 @@ function ShowViewModel(show) {
 	self.name = show.name;
 	self.genre = show.genre;
 	self.venue = show.venue;
+	self.times = show.times;
+	self.description = show.description;
+	
+	self.scheduled = ko.observableArray();
+	self.addToSchedule = function(datetime) {
+		self.scheduled.push(datetime);
+	}
+	self.removeFromSchedule = function(datetime) {
+		self.scheduled.remove(datetime);
+	}
+	self.inSchedule = function(item) {
+		return self.scheduled.indexOf(item) == -1;
+	}
 	
 	self.visible = ko.pureComputed(function() {
 		if (selectedGenres.indexOf(self.genre) == -1) return false;
@@ -38,8 +52,3 @@ var viewModel = {
 }
 
 ko.applyBindings(viewModel)
-
-ko.computed(function(){
-	console.log('sG', viewModel.selectedGenres())
-	console.log('sV', viewModel.selectedVenues())
-})
