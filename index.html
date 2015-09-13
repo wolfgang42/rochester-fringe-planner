@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+</head><body>
+
+<h2>Genre</h2>
+<div data-bind="foreach:genres">
+	<div>
+		<input type="checkbox" data-bind="attr:{value:$data}, checked: $root.selectedGenres" />
+		<span data-bind="text: $data">
+	</div>
+</div>
+<h2>Venue</h2>
+<div data-bind="foreach:venues">
+	<div>
+		<input type="checkbox" data-bind="attr:{value:$data}, checked: $root.selectedVenues" />
+		<span data-bind="text: $data">
+	</div>
+</div>
+
+<div id="shows" data-bind="foreach:shows">
+	<div data-bind="visible:visible">
+		<h2 data-bind="text:name"></h2>
+		<div><strong>Genre:</strong> <span data-bind="text:genre"></span></div>
+	</div>
+</div>
+
+<script type="text/javascript" src="bundle.js" charset="utf-8"></script>
+</body></html>
