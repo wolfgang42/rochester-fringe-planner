@@ -56,6 +56,23 @@ function ShowViewModel(show) {
 		if (selectedVenues.indexOf(self.venue) == -1) return false;
 		return true;
 	});
+	
+	self.toJSON = function() {
+		if (self.scheduled().length == 0) {
+			return self.tentative();
+		} else {
+			return self.scheduled();
+		}
+	}
+	self.fromJSON = function(value) {
+		if (typeof value == "boolean") {
+			self.tentative(value);
+			self.scheduled([]);
+		} else {
+			self.tentative(false);
+			self.scheduled(value);
+		}
+	}
 }
 
 var viewModel = {
@@ -110,3 +127,23 @@ $(document).ready(function() {
 })
 
 
+var store = require('./store')
+window.store=store;
+if (store.enabled) { // TODO warning message?
+	// Read in data at startup
+	if (store.get('fringe0')) {
+		var data = store.get('fringe0');
+		showViews.forEach(function(show) {
+			if (typeof data[show.name] == 'undefined') return
+			show.fromJSON(data[show.name])
+		});
+	}
+	// Save data on changes
+	ko.computed(function() {
+		var json = {}
+		showViews.forEach(function(show) {
+			json[show.name] = show.toJSON()
+		})
+		store.set('fringe0', json)
+	});
+}
