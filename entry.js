@@ -28,6 +28,7 @@ function ShowViewModel(show) {
 	
 	self.scheduled = ko.observableArray();
 	self.addToSchedule = function(datetime) {
+		console.log('add', datetime)
 		self.scheduled.push(datetime);
 		self.tentative(false); // Fix a time
 	}
@@ -74,7 +75,16 @@ $(document).ready(function() {
 		},
 		height: 'auto',
 		defaultView: 'agendaWeek',
-		events: []
+		events: [],
+		eventRender: function(event, element) {
+			if (!event._show.tentative()) return;
+			var button = $('<div class="btn btn-default btn-xs">Use this event</div>')
+			button.click(function() {
+				console.log('click')
+				event._show.addToSchedule(event._time);
+			});
+			$('.fc-content',element).append(button);
+		},
 	})
 	
 	ko.computed(function() {
@@ -86,7 +96,9 @@ $(document).ready(function() {
 					title: show.name,
 					start: time,
 					end: moment(time).add(show.length, 'minutes'),
-					color: show.tentative()?'grey':'darkblue'
+					color: show.tentative()?'grey':'darkblue',
+					_show: show,
+					_time: time,
 				})
 			})
 		})
