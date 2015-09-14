@@ -34,7 +34,7 @@ function ShowViewModel(show) {
 		self.scheduled.remove(datetime);
 	}
 	self.inSchedule = function(item) {
-		return self.scheduled.indexOf(item) == -1;
+		return self.scheduled.indexOf(item) != -1;
 	}
 	
 	self.visible = ko.pureComputed(function() {

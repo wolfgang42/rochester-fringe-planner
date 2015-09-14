@@ -59,11 +59,11 @@
 					<ul data-bind="foreach: times">
 						<li>
 							<span data-bind="text:$data"></span>
-							<div class="btn btn-default btn-xs" data-bind="click:$parent.addToSchedule,visible:$parent.inSchedule($data)">
+							<div class="btn btn-default btn-xs" data-bind="click:$parent.addToSchedule,visible:!$parent.inSchedule($data)">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 								Add to schedule
 							</div>
-							<span data-bind="visible:!$parent.inSchedule($data)">
+							<span data-bind="visible:$parent.inSchedule($data)">
 								On schedule
 								<div class="btn btn-danger btn-xs" data-bind="click:$parent.removeFromSchedule">
 									Remove
