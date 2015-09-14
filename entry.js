@@ -30,7 +30,6 @@ function ShowViewModel(show) {
 	
 	self.scheduled = ko.observableArray();
 	self.addToSchedule = function(datetime) {
-		console.log('add', datetime)
 		self.scheduled.push(datetime);
 		self.tentative(false); // Fix a time
 	}
@@ -99,7 +98,6 @@ $(document).ready(function() {
 			if (!event._show.tentative()) return;
 			var button = $('<div class="btn btn-default btn-xs">Use this event</div>')
 			button.click(function() {
-				console.log('click')
 				event._show.addToSchedule(event._time);
 			});
 			$('.fc-content',element).append(button);
@@ -125,7 +123,6 @@ $(document).ready(function() {
 		calendar.fullCalendar('addEventSource', events)
 	});
 })
-
 
 var store = require('./store')
 window.store=store;
