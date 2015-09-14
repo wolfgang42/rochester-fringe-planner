@@ -29,6 +29,7 @@ function ShowViewModel(show) {
 	self.scheduled = ko.observableArray();
 	self.addToSchedule = function(datetime) {
 		self.scheduled.push(datetime);
+		self.tentative(false); // Fix a time
 	}
 	self.removeFromSchedule = function(datetime) {
 		self.scheduled.remove(datetime);
@@ -36,6 +37,16 @@ function ShowViewModel(show) {
 	self.inSchedule = function(item) {
 		return self.scheduled.indexOf(item) != -1;
 	}
+	
+	self.tentative = ko.observable(false);
+	self.makeTentative = function() {self.tentative(true);}
+	self.unmakeTentative = function() {self.tentative(false);}
+	self.tentativeVisible = ko.pureComputed(function() {
+		if (self.tentative()) return false; // Don't show button if already clicked
+		if (self.times.length == 1) return false; // Only one possible time anyway
+		if (self.scheduled().length > 0) return false; // One has already been scheduled
+		return true;
+	});
 	
 	self.visible = ko.pureComputed(function() {
 		if (selectedGenres.indexOf(self.genre) == -1) return false;
@@ -69,11 +80,13 @@ $(document).ready(function() {
 	ko.computed(function() {
 		var events = [];
 		showViews.forEach(function(show) {
-			show.scheduled().forEach(function(time) {
+			show.times.forEach(function(time) {
+				if (!show.tentative() && !show.inSchedule(time)) return;
 				events.push({
 					title: show.name,
 					start: time,
 					end: moment(time).add(show.length, 'minutes'),
+					color: show.tentative()?'grey':'darkblue'
 				})
 			})
 		})
