@@ -70,7 +70,7 @@
 					</div>
 					<ul data-bind="foreach: times">
 						<li>
-							<span data-bind="text:$data"></span>
+							<span data-bind="text:moment($data).format('MMMM Do [at] h:mma')"></span>
 							<div class="btn btn-default btn-xs" data-bind="click:$parent.addToSchedule,visible:!$parent.inSchedule($data)">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 								Add to schedule

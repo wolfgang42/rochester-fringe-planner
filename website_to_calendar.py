@@ -6,7 +6,7 @@ requests_cache.install_cache('request_cache')
 
 time_match = re.compile('^9\/([0-9][0-9]) at ([0-9]?[0-9]):([0-9][0-9])([ap])m$')
 h4_time_match = re.compile('^September ([0-9][0-9])(th|rd|st|nd) at ([0-9]?[0-9]):([0-9][0-9])([ap])m$')
-TZ_EST = pytz.timezone("America/New_York")
+TZ_EST = pytz.timezone("US/Eastern")
 length_match = re.compile('^([0-9]+) minutes$')
 
 eventNames = {}
@@ -52,7 +52,7 @@ for page in range(1,52+1):
 		if m.group(5)=='p' and hour != 12:
 			hour += 12
 		minute = int(m.group(4))
-		eventNames[show['name']]['times'].append(datetime.datetime(2015, 9, day, hour, minute, 0, 0, TZ_EST))
+		eventNames[show['name']]['times'].append(TZ_EST.localize(datetime.datetime(2015, 9, day, hour, minute, 0, 0)))
 
 def json_serial(obj):
 	if isinstance(obj, datetime.datetime):
