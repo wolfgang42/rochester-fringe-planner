@@ -95,6 +95,20 @@ $(document).ready(function() {
 		defaultView: 'agendaWeek',
 		events: [],
 		eventRender: function(event, element) {
+			element.qtip({
+				content: {
+					title: event.title,
+					text: $('<span>'+event._show.description+"<div><strong>Venue:</strong>"+event._show.venue+"</div></span>"),
+				},
+				position: {
+					my: 'top left',
+					at: 'bottom left',
+					viewport: $(window),
+				},
+				style: {
+					classes: 'qtip-bootstrap',
+				},
+			})
 			if (!event._show.tentative()) return;
 			var button = $('<div class="btn btn-default btn-xs">Use this event</div>')
 			button.click(function() {
