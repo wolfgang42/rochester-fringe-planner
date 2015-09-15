@@ -85,7 +85,7 @@ var viewModel = {
 $(document).ready(function() {
 	ko.applyBindings(viewModel)
 	
-	var calendar = $('#calendar').fullCalendar({
+	var calendar = $('#schedule').fullCalendar({
 		header: {
 			left: 'title',
 			center: 'prev,next today',
@@ -116,6 +116,16 @@ $(document).ready(function() {
 			});
 			$('.fc-content',element).append(button);
 		},
+	})
+	
+	// I can't figure out why, but fullcalendar insists that this tab be active
+	// in order to render into it. We therefore deactivate it right after load
+	// to prevent it from showing up.
+	calendar.removeClass('active')
+	$('#tabbar a').click(function (e) {
+		e.preventDefault()
+		$(this).tab('show')
+		$('#calendar').fullCalendar('rerenderEvents')
 	})
 	
 	ko.computed(function() {

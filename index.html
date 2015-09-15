@@ -90,17 +90,8 @@
 	</div>
 	
 	<div role="tabpanel" class="tab-pane active" id="schedule">
-		<div id="calendar"></div>
 	</div>
 </div>
 
-<script>
-$('#tabbar a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-  $('#calendar').fullCalendar('rerenderEvents')
-})
-$('#myTabs a[href="#events"]').tab('show')
-</script>
 <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
 </div></body></html>
