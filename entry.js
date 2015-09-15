@@ -83,6 +83,9 @@ var viewModel = {
 }
 
 $(document).ready(function() {
+	document.getElementById('events').innerHTML = require('raw!./events.html')
+	document.getElementById('schedule').innerHTML = ''
+	
 	ko.applyBindings(viewModel)
 	
 	var calendar = $('#schedule').fullCalendar({
