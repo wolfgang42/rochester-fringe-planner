@@ -20,7 +20,6 @@ function ShowViewModel(show) {
 	var self = this;
 	
 	self.name = show.name;
-	self.ages = show.ages;
 	self.link = show.link;
 	self.genre = show.genre;
 	self.venue = show.venue;
