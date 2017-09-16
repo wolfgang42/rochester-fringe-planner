@@ -131,7 +131,7 @@ $(document).ready(function() {
 	$('#tabbar a').click(function (e) {
 		e.preventDefault()
 		$(this).tab('show')
-		$('#calendar').fullCalendar('rerenderEvents')
+		$('#schedule').fullCalendar('rerenderEvents')
 	})
 	
 	ko.computed(function() {
