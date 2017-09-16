@@ -1,6 +1,6 @@
 var ko = require('knockout')
 
-var shows = require('json!./fringe.json')
+var shows = require('json-loader!./fringe.json')
 
 var genres = {};
 var venues = {};
@@ -83,7 +83,7 @@ var viewModel = {
 }
 
 $(document).ready(function() {
-	document.getElementById('events').innerHTML = require('raw!./events.html')
+	document.getElementById('events').innerHTML = require('raw-loader!./events.html')
 	document.getElementById('schedule').innerHTML = ''
 	
 	ko.applyBindings(viewModel)

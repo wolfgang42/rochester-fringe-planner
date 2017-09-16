@@ -16,4 +16,4 @@ And set up the NPM dependencies:
 npm install
 ```
 
-Now you can run `webpack-dev-server` (assuming you already have it installed; if not `npm -g webpack-dev-server` first) and go to http://localhost:8080.
+Now you can run `node_modules/.bin/webpack-dev-server` and go to http://localhost:8080.
