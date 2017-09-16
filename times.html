@@ -1,0 +1,29 @@
+<div>
+	<strong>Times:</strong>
+	
+	<div class="btn btn-default btn-xs" data-bind="visible:tentativeVisible, click:makeTentative">
+		<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+		Add tentative
+	</div>
+	<span data-bind="visible:tentative">
+		Tentative
+		<div class="btn btn-danger btn-xs" data-bind="click:unmakeTentative">
+			Remove
+		</div>
+	</span>
+</div>
+<ul data-bind="foreach: times">
+	<li>
+		<span data-bind="text:moment($data).format('MMMM Do [at] h:mma')"></span>
+		<div class="btn btn-default btn-xs" data-bind="click:$parent.addToSchedule,visible:!$parent.inSchedule($data)">
+			<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+			Add to schedule
+		</div>
+		<span data-bind="visible:$parent.inSchedule($data)">
+			On schedule
+			<div class="btn btn-danger btn-xs" data-bind="click:$parent.removeFromSchedule">
+				Remove
+			</div>
+		</span>
+	</li>
+</ul>

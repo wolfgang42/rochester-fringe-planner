@@ -83,6 +83,7 @@ var viewModel = {
 
 $(document).ready(function() {
 	document.getElementById('events').innerHTML = require('raw-loader!./events.html')
+	document.getElementById('events-times').innerHTML = require('raw-loader!./times.html')
 	document.getElementById('schedule').innerHTML = ''
 	
 	ko.applyBindings(viewModel)
@@ -97,10 +98,13 @@ $(document).ready(function() {
 		defaultView: 'agendaWeek',
 		events: [],
 		eventRender: function(event, element) {
+			var qtip_content = document.createElement('span')
+			qtip_content.innerHTML = '<div data-bind="text:description"></div><div><strong>Venue:</strong> <span data-bind="text:venue"></div>'+require('raw-loader!./times.html')
+			ko.applyBindings(event._show, qtip_content)
 			element.qtip({
 				content: {
 					title: event.title,
-					text: $('<span>'+event._show.description+"<div><strong>Venue:</strong>"+event._show.venue+"</div></span>"),
+					text: $(qtip_content),
 				},
 				position: {
 					my: 'top left',
@@ -115,12 +119,6 @@ $(document).ready(function() {
 					fixed: true,
 				},
 			})
-			if (!event._show.tentative()) return;
-			var button = $('<div class="btn btn-default btn-xs">Use this event</div>')
-			button.click(function() {
-				event._show.addToSchedule(event._time);
-			});
-			$('.fc-content',element).append(button);
 		},
 	})
 	
