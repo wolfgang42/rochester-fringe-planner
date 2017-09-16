@@ -110,6 +110,10 @@ $(document).ready(function() {
 				style: {
 					classes: 'qtip-bootstrap',
 				},
+				hide: {
+					delay: 100,
+					fixed: true,
+				},
 			})
 			if (!event._show.tentative()) return;
 			var button = $('<div class="btn btn-default btn-xs">Use this event</div>')
