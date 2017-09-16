@@ -52,7 +52,7 @@ for page in range(1,28+1):
 		if m.group(5)=='p' and hour != 12:
 			hour += 12
 		minute = int(m.group(4))
-		eventNames[show['name']]['times'].append(TZ_EST.localize(datetime.datetime(2015, 9, day, hour, minute, 0, 0)))
+		eventNames[show['name']]['times'].append(TZ_EST.localize(datetime.datetime(2017, 9, day, hour, minute, 0, 0)))
 
 def json_serial(obj):
 	if isinstance(obj, datetime.datetime):
