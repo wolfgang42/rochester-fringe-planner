@@ -158,8 +158,8 @@ var store = require('./store')
 window.store=store;
 if (store.enabled) { // TODO warning message?
 	// Read in data at startup
-	if (store.get('fringe0')) {
-		var data = store.get('fringe0');
+	if (store.get('fringe2017')) {
+		var data = store.get('fringe2017');
 		showViews.forEach(function(show) {
 			if (typeof data[show.name] == 'undefined') return
 			show.fromJSON(data[show.name])
@@ -171,6 +171,6 @@ if (store.enabled) { // TODO warning message?
 		showViews.forEach(function(show) {
 			json[show.name] = show.toJSON()
 		})
-		store.set('fringe0', json)
+		store.set('fringe2017', json)
 	});
 }
