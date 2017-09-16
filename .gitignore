@@ -3,3 +3,4 @@ fringe.json
 node_modules/
 venv2/
 request_cache.sqlite
+bundle.js
