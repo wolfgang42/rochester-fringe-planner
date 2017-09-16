@@ -94,6 +94,8 @@ $(document).ready(function() {
 			center: 'prev,next today',
 			right: 'agendaWeek,agendaDay',
 		},
+		allDaySlot: false,
+		minTime: '10:00:00', // TODO calculate
 		height: 'auto',
 		defaultView: 'agendaWeek',
 		events: [],
@@ -129,7 +131,7 @@ $(document).ready(function() {
 	$('#tabbar a').click(function (e) {
 		e.preventDefault()
 		$(this).tab('show')
-		$('#schedule').fullCalendar('rerenderEvents')
+		calendar.fullCalendar('rerenderEvents')
 	})
 	
 	ko.computed(function() {
