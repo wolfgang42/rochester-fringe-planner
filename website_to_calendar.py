@@ -7,45 +7,45 @@ requests_cache.install_cache('request_cache')
 time_match = re.compile('^9\/([0-9][0-9]) at ([0-9]?[0-9]):([0-9][0-9])([ap])m$')
 h4_time_match = re.compile('^September ([0-9][0-9])(th|rd|st|nd) at ([0-9]?[0-9]):([0-9][0-9])([ap])m$')
 TZ_EST = pytz.timezone("US/Eastern")
-length_match = re.compile('^([0-9]+) minutes$')
+length_match = re.compile('^([0-9]+) Minutes$')
 
 eventNames = {}
 
 shows = []
-for page in range(1,52+1):
-	r = requests.get('http://rochesterfringe.com/shows/page/'+str(page))
+for page in range(1,28+1):
+	r = requests.get('http://rochesterfringe.com/tickets-and-shows/page/'+str(page))
 	r.raise_for_status()
 	soup = bs4.BeautifulSoup(r.text, 'html.parser')
-	for show_soup in soup.select('#shows .show'):
+	for show_soup in soup.select('#primary .main .show'):
 		show = {}
 		header = show_soup.find('h2').find('a')
 		show['name'] = header.get_text()
 		show['link'] = header['href']
-		show['description'] = show_soup.find(class_="details").find('p').get_text()
+		show['description'] = show_soup.select('.row > div:nth-of-type(2) > p:nth-of-type(2)')[0].get_text()
 		
 		if show['name'] not in eventNames:
 			details = {}
-			for detail in show_soup.select('.details ul.facts li'):
-				details[detail.find('strong').get_text()] = detail.find('span')
+			for detail in show_soup.select('ul.details li'):
+				details[detail.find('strong').get_text()] = detail.contents[-1].strip() # Text not in <strong>
 
-			m = length_match.match(details['Show Length:'].get_text())
+			m = length_match.match(details['Length:'])
 			if not m: raise Exception("Bad length!")
 			show['length'] = int(m.group(1))
 			show['times'] = []
-			show['venue'] = details['Venue:'].get_text()
-			show['genre'] = details['Genre:'].get_text()
-			show['ages'] = details['Ages:'].get_text()
-			if 'Ticket Price:' in details:
-				price = details['Ticket Price:'].get_text()
-				if price.strip() == 'Free':
-					show['price'] = 0
-				else:
-					show['price'] = float(price.replace('$',''))
-			# TODO multiple prices e.g. BIODANCE
+			show['venue'] = details['Venue:']
+			show['genre'] = details['Genre:']
+			show['tickets'] = details['Tickets:']
+			# if 'Ticket Price:' in details:
+			# 	price = details['Ticket Price:']
+			# 	if price.strip() == 'Free':
+			# 		show['price'] = 0
+			# 	else:
+			# 		show['price'] = float(price.replace('$',''))
+			# # TODO multiple prices e.g. BIODANCE
 			shows.append(show)
 			eventNames[show['name']] = show
 		
-		m = h4_time_match.match(show_soup.find('h4').get_text())
+		m = h4_time_match.match(show_soup.select('.lead.extra')[0].get_text().strip())
 		if not m: raise Exception("Bad time!")
 		day = int(m.group(1))
 		hour = int(m.group(3))
