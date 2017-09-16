@@ -19,7 +19,10 @@ for page in range(1,28+1):
 		header = show_soup.find('h2').find('a')
 		show['name'] = header.get_text()
 		show['link'] = header['href']
-		show['description'] = show_soup.select('.row > div:nth-of-type(2) > p:nth-of-type(2)')[0].get_text()
+		show['description'] = ''
+		for p in show_soup.find(class_='row').select('div:nth-of-type(2) > p'):
+			if not p.has_attr('class'):
+				show['description'] += p.get_text()+'\n'
 		
 		if show['name'] not in eventNames:
 			details = {}
