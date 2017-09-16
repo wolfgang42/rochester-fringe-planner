@@ -99,7 +99,7 @@ $(document).ready(function() {
 		events: [],
 		eventRender: function(event, element) {
 			var qtip_content = document.createElement('span')
-			qtip_content.innerHTML = '<div data-bind="text:description"></div><div><strong>Venue:</strong> <span data-bind="text:venue"></div>'+require('raw-loader!./times.html')
+			qtip_content.innerHTML = '<div data-bind="text:description"></div><div><a data-bind="attr:{href:link}" target="_blank">More information</a></div><div><strong>Venue:</strong> <span data-bind="text:venue"></div>'+require('raw-loader!./times.html')
 			ko.applyBindings(event._show, qtip_content)
 			element.qtip({
 				content: {
