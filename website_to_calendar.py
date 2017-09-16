@@ -10,8 +10,6 @@ TZ_EST = pytz.timezone("US/Eastern")
 length_match = re.compile('^([0-9]+) Minutes$')
 
 eventNames = {}
-
-shows = []
 for page in range(1,28+1):
 	r = requests.get('http://rochesterfringe.com/tickets-and-shows/page/'+str(page))
 	r.raise_for_status()
@@ -42,7 +40,6 @@ for page in range(1,28+1):
 			# 	else:
 			# 		show['price'] = float(price.replace('$',''))
 			# # TODO multiple prices e.g. BIODANCE
-			shows.append(show)
 			eventNames[show['name']] = show
 		
 		m = h4_time_match.match(show_soup.select('.lead.extra')[0].get_text().strip())
@@ -66,7 +63,8 @@ cal = icalendar.Calendar()
 cal.add('prodid', '-//Rochester Fringe Finder//fringefinder.linestarve.com//')
 cal.add('version', '2.0')
 i = 0
-for show in shows:
+for event in eventNames:
+	show = eventNames[event]
 	for time in show['times']:
 		i+=1
 		event = icalendar.Event()
