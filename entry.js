@@ -109,8 +109,8 @@ $(document).ready(function() {
 					text: $(qtip_content),
 				},
 				position: {
-					my: 'top left',
-					at: 'bottom left',
+					my: 'bottom left',
+					at: 'top left',
 					viewport: $(window),
 				},
 				style: {
